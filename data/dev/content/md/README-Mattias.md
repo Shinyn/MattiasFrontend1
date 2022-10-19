@@ -34,22 +34,26 @@ Other than those 2 reasons it exists to sort and print out information from JSON
 
 ---
 
+---
+
 #Technical documentation:
 
 ## **My solution**:
 
 1. Use fetch() to access the JSON files on the local server
 2. Use forEach() to go through all files and use destructuring to access the key / value pair of each individual file
-3. Use a function that sorts the files into groups based on one of the key's from the JSON file
+3. Use a function that sorts the files into groups based on one of the key's from the JSON file TODO: What function - be more specific
 4. Use document.getelementById() to connect a button in html with js so that when you press the button
 
-   3.2 A step by step guide to using the code you have written.
-   3.3 All technical documentation should fit into README.md.
-   Advanced requirements
-   3.3 Describe more than one way of reusing your solution.
-   3.4 Make your code as easy as possible to reuse by someone else.
-   Show by example how you have taken into account who else might
-   want to solve your particular problem, as well as when and why
+3.1 A short summary that describe your solution in a sentence or
+two.
+3.2 A step by step guide to using the code you have written.
+
+Advanced requirements
+3.3 Describe more than one way of reusing your solution.
+3.4 Make your code as easy as possible to reuse by someone else.
+Show by example how you have taken into account who else might
+want to solve your particular problem, as well as when and why
 
 ## If you want to use the code:
 
