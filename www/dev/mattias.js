@@ -1,4 +1,6 @@
 "use strict";
+// Jag har för vana att kommentera på svenska i koden men att readme.md filen och commit kommentarer är på engelska,
+// jag förstår att detta inte är optimalt men så har jag alltid gjort i solo projekt.
 
 // Kopplar ihop listan, formuläret och knapparna i html med denna js fil
 const list = document.getElementById("list");
@@ -19,33 +21,36 @@ let discordGroup = [];
 let githubGroup = [];
 let skillsGroup = [];
 let belongsToGroup = [];
+let birthYearGroup = [];
 let voidGroup = [];
 
 // Från html så hämtar vi form som är en dropdown meny där vi kan välja vilken parameter vi vill sortera / gruppera efter.
-// På form sätter vi en eventListener som aktiverar handleform funktionen när vi clickar på submit knappen.
+// På form sätter vi en eventListener som aktiverar handleform funktionen när vi clickar på "Välj Parameter" knappen.
 // Funktionen gör 4 saker:
 // 1. Den hindrar sidan från att uppdatera sig med "event.preventDefault()" så att infon inte blir resettad.
 // 2. Den hämtar infon användaren valt i dropdown menyn och lägger värdet i variabeln "result"
 // 3. Den rensar info som redan skrivits ut så att inte samma info blir utskriven flera gånger.
-// 4. Den kör funktionen getInfo() och skickar med results som parameter.
+// 4. Den kör funktionen getJsonInfo() och skickar med results som parameter.
 
 form.addEventListener("submit", handleForm);
 function handleForm(event) {
   event.preventDefault();
   let result = document.getElementById("groupAs").value;
   clearList();
-  getInfo(result);
+  getJsonInfo(result);
 }
 
-// Här nedanför hämtar vi alla users från addressen "http://localhost:3000/api/users" genom att klicka på knappen "submit" (beskrivs ovan).
-// När man trycker på knappen hämtas users med fetch. Svaret vi får (res) konverteras till ett json objekt.
+// Här nedanför hämtar vi alla users från addressen "http://localhost:3000/api/users" genom att klicka på knappen "Välj Parameter" (beskrivs ovan).
+// När man trycker på knappen hämtas users med fetch. Svaret vi får (res) konverteras till ett JSON objekt.
 // Sen loopar vi igenom alla json filer med forEach() och använder oss av destrcturing för att plocka ut samtliga parametrar.
-//
-// Eftersom inte alla users har birthYear och zodiac som parametrar så sätter vi
-// deras default värden till "no birthYear given" och "no zodiac given" så att man
-// får info om varför dessa inte visas (istället för undefined).
+// Därefter, beroende på vad för parameter som valts i formuläret, så pushas parametrarna in i egna arrayer.
 
-function getInfo(tmp) {
+// Eftersom inte alla users har birthYear och zodiac som parametrar så sätter vi deras default värden
+// till "no birthYear given" och "no zodiac given" så att man får info om varför dessa inte visas
+// (istället för undefined), detta skulle såklart kunna göras med samtliga parametrar men jag har valt att
+// endast göra det med parametrar jag vet inte finns på alla JSON objekt.
+
+function getJsonInfo(tmp) {
   fetch("http://localhost:3000/api/users")
     .then((res) => res.json())
     .then((data) => {
@@ -106,6 +111,7 @@ function getInfo(tmp) {
           li.innerText = `${belongsTo}`;
         }
         if (tmp === "birthYear") {
+          birthYearGroup.push(birthYear);
           li.innerText = `${birthYear}`;
         }
         list.appendChild(li);
@@ -128,9 +134,6 @@ function sortByPersonalityType(color, personObject) {
   if (color === "blå") blueGroup.push(personObject);
   if (color === "gul") yellowGroup.push(personObject);
 }
-
-//--------------------------------------------------------------------
-//FIXME: Här jobbar jag nu TODO: FIX!
 
 // När man klickar på Visa Grupp knappen så körs showGroup och resetGroups funktionerna
 showGroupButton.addEventListener("click", () => {
@@ -168,16 +171,16 @@ function showGroup() {
     sortNameAlphabetically(lastNames);
   }
   if (value === "skills" || value === "hash" || value === "birthYear") {
-    uniMsg(voidGroup, "error");
+    fillUlWith(voidGroup, "error");
   }
   if (value === "personalityType") {
-    uniMsg(greenGroup, "color");
-    uniMsg(redGroup, "color");
-    uniMsg(yellowGroup, "color");
-    uniMsg(blueGroup, "color");
+    fillUlWith(greenGroup, "color");
+    fillUlWith(redGroup, "color");
+    fillUlWith(yellowGroup, "color");
+    fillUlWith(blueGroup, "color");
   }
   if (value === "belongsTo") {
-    fromGroup(belongsToGroup);
+    sortByNumber(belongsToGroup);
   }
   if (value === "github") {
     console.log(githubGroup.sort());
@@ -187,14 +190,9 @@ function showGroup() {
   }
 }
 
-function randomSort(array) {
-  array.forEach((person) => {
-    let num = Math.random() * 3 + 1;
-  });
-}
-
-// Sorterar folk baserat på vilken grupp dom tillhörde, detta är dock inte så hjälpsamt nu eftersom man bara ser gruppnummret men inte personen som tillhör den
-function fromGroup(group) {
+// Sorterar folk baserat på vilken grupp dom tillhörde (vilken siffra), detta är dock inte så
+// hjälpsamt nu eftersom man bara ser gruppnummret men inte personen som tillhör den.
+function sortByNumber(group) {
   let regEx = /\d/g;
   let arr = [];
   for (const person of group) {
@@ -209,9 +207,9 @@ function fromGroup(group) {
   });
 }
 
+// Sorterar folk i alfabetisk ordning med hjälp av RegEx och  pushar dom i en av 3 arrayer
 function sortNameAlphabetically(array) {
   for (const person of array) {
-    // Matchar förnamn mot RegEx och pushar in folk i rätt arrayer
     const regExA = /([A-F])\w+/;
     const regExG = /([G-M])\w+/;
     const regExN = /([N-Z])\w+/;
@@ -225,13 +223,13 @@ function sortNameAlphabetically(array) {
       fnGroup3.push(person);
     }
   }
-  uniMsg(fnGroup1, "name", 1);
-  uniMsg(fnGroup2, "name", 2);
-  uniMsg(fnGroup3, "name", 3);
+  fillUlWith(fnGroup1, "name", 1);
+  fillUlWith(fnGroup2, "name", 2);
+  fillUlWith(fnGroup3, "name", 3);
 }
 
 // Funktion som fyller ul taggen med li element beroende på parameter som angetts
-function uniMsg(group, string, num) {
+function fillUlWith(group, string, num) {
   // Skriver ut samtliga medlemmar i sina respektive färg-grupper och visar dom på hemsidan
   if (string === "color") {
     for (const person of group) {
@@ -254,5 +252,3 @@ function uniMsg(group, string, num) {
     list.appendChild(li);
   }
 }
-
-// =======================TEST=======================\\
