@@ -15,6 +15,11 @@ let hashGroup = [];
 let fnGroup1 = [];
 let fnGroup2 = [];
 let fnGroup3 = [];
+let discordGroup = [];
+let githubGroup = [];
+let skillsGroup = [];
+let belongsToGroup = [];
+let voidGroup = [];
 
 // Från html så hämtar vi form som är en dropdown meny där vi kan välja vilken parameter vi vill sortera / gruppera efter.
 // På form sätter vi en eventListener som aktiverar handleform funktionen när vi clickar på submit knappen.
@@ -77,12 +82,15 @@ function getInfo(tmp) {
           li.innerText = `${lastname}`;
         }
         if (tmp === "discord") {
+          discordGroup.push(discord);
           li.innerText = `${discord}`;
         }
         if (tmp === "github") {
+          githubGroup.push(github);
           li.innerText = `${github}`;
         }
         if (tmp === "skills") {
+          skillsGroup.push(skills);
           li.innerText = `${skills}`;
         }
         if (tmp === "personalityType") {
@@ -94,6 +102,7 @@ function getInfo(tmp) {
           li.innerText = `${hash}`;
         }
         if (tmp === "belongsTo") {
+          belongsToGroup.push(belongsTo);
           li.innerText = `${belongsTo}`;
         }
         if (tmp === "birthYear") {
@@ -104,21 +113,11 @@ function getInfo(tmp) {
     });
 }
 
-// När man klickar på clear knappen så körs clearList funktionen
 clear.addEventListener("click", clearList);
 // Rensar all data som visas i listan (tar bort alla child element i ul taggen)
 function clearList() {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
-  }
-}
-
-// Skriver ut samtliga medlemmar i sina respektive färg-grupper och visar dom på hemsidan
-function printGroupMembers(group) {
-  for (const person of group) {
-    let li = document.createElement("li");
-    li.innerText = `People in group ${person.personalityType}: ${person.firstname}`;
-    list.appendChild(li);
   }
 }
 
@@ -129,65 +128,131 @@ function sortByPersonalityType(color, personObject) {
   if (color === "blå") blueGroup.push(personObject);
   if (color === "gul") yellowGroup.push(personObject);
 }
+
 //--------------------------------------------------------------------
 //FIXME: Här jobbar jag nu TODO: FIX!
 
-// När man klickar på Visa Grupp knappen så körs showGroup funktionen
+// När man klickar på Visa Grupp knappen så körs showGroup och resetGroups funktionerna
 showGroupButton.addEventListener("click", () => {
   showGroup();
+  resetGroups();
 });
+
+// Resettar värdet på alla arrayer
+function resetGroups() {
+  greenGroup = [];
+  redGroup = [];
+  blueGroup = [];
+  yellowGroup = [];
+  firstNames = [];
+  lastNames = [];
+  hashGroup = [];
+  fnGroup1 = [];
+  fnGroup2 = [];
+  fnGroup3 = [];
+  discordGroup = [];
+  githubGroup = [];
+  skillsGroup = [];
+  belongsToGroup = [];
+  voidGroup = [];
+}
 
 // Rensar först listan och kallar sen på funktionen "printGroupMembers"
 function showGroup() {
   clearList();
   let value = document.getElementById("groupAs").value;
   if (value === "firstname") {
-    for (const person of firstNames) {
-      // Matchar förnamn mot RegEx och pushar in folk i rätt arrayer
-      const regExA = /([A-F])\w+/;
-      const regExG = /([G-M])\w+/;
-      const regExN = /([N-Z])\w+/;
-      if (person.match(regExA)) {
-        fnGroup1.push(person);
-      }
-      if (person.match(regExG)) {
-        fnGroup2.push(person);
-      }
-      if (person.match(regExN)) {
-        fnGroup3.push(person);
-      }
-    }
-    // Sorterar grupperna och kallar på createDiv som skapar li som appendas på ul i html
-    fnGroup1.sort();
-    fnGroup2.sort();
-    fnGroup3.sort();
-    createDiv(1, fnGroup1);
-    createDiv(2, fnGroup2);
-    createDiv(3, fnGroup3);
+    sortNameAlphabetically(firstNames);
   }
   if (value === "lastname") {
-    console.log(lastNames.sort());
+    sortNameAlphabetically(lastNames);
   }
-  if (value === "hash") {
-    hashGroup.forEach((element) => {
-      element.filter((word) => word.split(""));
-    });
-    console.log(hashGroup.sort());
+  if (value === "skills" || value === "hash" || value === "birthYear") {
+    uniMsg(voidGroup, "error");
   }
   if (value === "personalityType") {
-    printGroupMembers(greenGroup);
-    printGroupMembers(yellowGroup);
-    printGroupMembers(redGroup);
-    printGroupMembers(blueGroup);
+    uniMsg(greenGroup, "color");
+    uniMsg(redGroup, "color");
+    uniMsg(yellowGroup, "color");
+    uniMsg(blueGroup, "color");
+  }
+  if (value === "belongsTo") {
+    fromGroup(belongsToGroup);
+  }
+  if (value === "github") {
+    console.log(githubGroup.sort());
+  }
+  if (value === "discord") {
+    console.log(discordGroup.sort());
   }
 }
 
-//FIXME: Sorterar det som skickas in i alfabetisk ordning
-// Tar in array med personer som ska grupperas (dom har redan blivit sorterade vid dehär laget
-// använd RegEx för att matcha i olika grupper
-
-function createDiv(num, group) {
-  let li = document.createElement("li");
-  li.innerText = `Group ${num}: ${group}`;
-  list.appendChild(li);
+function randomSort(array) {
+  array.forEach((person) => {
+    let num = Math.random() * 3 + 1;
+  });
 }
+
+// Sorterar folk baserat på vilken grupp dom tillhörde, detta är dock inte så hjälpsamt nu eftersom man bara ser gruppnummret men inte personen som tillhör den
+function fromGroup(group) {
+  let regEx = /\d/g;
+  let arr = [];
+  for (const person of group) {
+    let digit = person.match(regEx);
+    arr.push(digit);
+  }
+  arr.sort();
+  arr.forEach((num) => {
+    let li = document.createElement("li");
+    li.innerText = num;
+    list.appendChild(li);
+  });
+}
+
+function sortNameAlphabetically(array) {
+  for (const person of array) {
+    // Matchar förnamn mot RegEx och pushar in folk i rätt arrayer
+    const regExA = /([A-F])\w+/;
+    const regExG = /([G-M])\w+/;
+    const regExN = /([N-Z])\w+/;
+    if (person.match(regExA)) {
+      fnGroup1.push(person);
+    }
+    if (person.match(regExG)) {
+      fnGroup2.push(person);
+    }
+    if (person.match(regExN)) {
+      fnGroup3.push(person);
+    }
+  }
+  uniMsg(fnGroup1, "name", 1);
+  uniMsg(fnGroup2, "name", 2);
+  uniMsg(fnGroup3, "name", 3);
+}
+
+// Funktion som fyller ul taggen med li element beroende på parameter som angetts
+function uniMsg(group, string, num) {
+  // Skriver ut samtliga medlemmar i sina respektive färg-grupper och visar dom på hemsidan
+  if (string === "color") {
+    for (const person of group) {
+      let li = document.createElement("li");
+      li.innerText = `Group ${person.personalityType}: ${person.firstname}`;
+      list.appendChild(li);
+    }
+  }
+  // Skriver ut ett error meddelande när parametern inte kan fördelas in i grupper
+  if (string === "error") {
+    let li = document.createElement("li");
+    li.innerText = `Cant sort parameter`;
+    list.appendChild(li);
+  }
+  if (string === "name") {
+    // Sorterar efter namn - används till förnamn och efternamn
+    group.sort();
+    let li = document.createElement("li");
+    li.innerText = `Group ${num}: ${group}`;
+    list.appendChild(li);
+  }
+}
+
+// =======================TEST=======================\\
