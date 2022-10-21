@@ -51,14 +51,20 @@ To clone and run this program you'll need Git and Node.js installed.
 
 ### If you want to use the code:
 
-1. Use fetch() to access the JSON files on the local server
-2. Use forEach() to go through all files and use destructuring to access the key / value pair of each individual file
-3. Use a function that sorts the files into groups based on one of the key's from the JSON file TODO: What function - be more specific
-4. Use document.getelementById() to connect a button in html with js so that when you press the button
+- 3.2 A step by step guide to using the code you have written.
 
-3.2 A step by step guide to using the code you have written.
+- To access the JSON object use the **"getJsonInfo()"** function which takes in a value from the dropdown menu
+- To access the form element use the **"form"** variable
+- To access the "Rensa" button use the **"clear"** variable
+- To access the ul element use the **"list"** variable
+- Accessing variables that are **inside** the JSON object **outside** of the **"getJsonInfo()"** function can be done using  
+  fetch() on the **http://localhost:3000/api/users/** address and destructure it as i have done in the **"getJsonInfo()"** function
+- To clear the list of li tags use the **"clearList()"** function
+- To clear all arrays use the **"resetGroups()"** function
+- To sort **NAMES** alphabetically use the **"sortNameAlphabetically()"** which accepts an array as argument
+- To use the
 
-- [ ] Skriv om vad man kan göra för att tweeka programmet så att man kan använda sig av alla parametrar i json filerna, samt vad man behöver lägga till för att visa dom i html'en.
+<!-- - [ ] Skriv om vad man kan göra för att tweeka programmet så att man kan använda sig av alla parametrar i json filerna, samt vad man behöver lägga till för att visa dom i html'en. -->
 
 ---
 

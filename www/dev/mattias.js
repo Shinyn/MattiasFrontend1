@@ -50,7 +50,7 @@ function handleForm(event) {
 // (istället för undefined), detta skulle såklart kunna göras med samtliga parametrar men jag har valt att
 // endast göra det med parametrar jag vet inte finns på alla JSON objekt.
 
-function getJsonInfo(tmp) {
+function getJsonInfo(dropDownValue) {
   fetch("http://localhost:3000/api/users")
     .then((res) => res.json())
     .then((data) => {
@@ -78,39 +78,39 @@ function getJsonInfo(tmp) {
         } = item;
 
         const li = document.createElement("li");
-        if (tmp === "firstname") {
+        if (dropDownValue === "firstname") {
           firstNames.push(firstname);
           li.innerText = `${firstname}`;
         }
-        if (tmp === "lastname") {
+        if (dropDownValue === "lastname") {
           lastNames.push(lastname);
           li.innerText = `${lastname}`;
         }
-        if (tmp === "discord") {
+        if (dropDownValue === "discord") {
           discordGroup.push(discord);
           li.innerText = `${discord}`;
         }
-        if (tmp === "github") {
+        if (dropDownValue === "github") {
           githubGroup.push(github);
           li.innerText = `${github}`;
         }
-        if (tmp === "skills") {
+        if (dropDownValue === "skills") {
           skillsGroup.push(skills);
           li.innerText = `${skills}`;
         }
-        if (tmp === "personalityType") {
+        if (dropDownValue === "personalityType") {
           sortByPersonalityType(personalityType, item);
           li.innerText = `${personalityType}`;
         }
-        if (tmp === "hash") {
+        if (dropDownValue === "hash") {
           hashGroup.push(hash);
           li.innerText = `${hash}`;
         }
-        if (tmp === "belongsTo") {
+        if (dropDownValue === "belongsTo") {
           belongsToGroup.push(belongsTo);
           li.innerText = `${belongsTo}`;
         }
-        if (tmp === "birthYear") {
+        if (dropDownValue === "birthYear") {
           birthYearGroup.push(birthYear);
           li.innerText = `${birthYear}`;
         }

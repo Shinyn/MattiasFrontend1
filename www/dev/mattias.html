@@ -11,8 +11,8 @@
   <body>
     <div id="body">
       <h1 id="titel">Individuell uppgift Mattias Alm</h1>
-      <button id="clear">Rensa</button>
-      <button id="showGroup">Visa grupper</button>
+      <button id="clear" class="button">Rensa</button>
+      <button id="showGroup" class="button">Visa grupper</button>
       <!-- FORM -->
       <form name="makeGroups" id="makeGroups" action="">
         <select id="groupAs" name="Gruppera efter:">
@@ -20,6 +20,7 @@
           <option value="lastname">Efternamn</option>
           <option value="belongsTo">Grupp</option>
           <option value="personalityType">Personlighetstyp</option>
+          <!-- Koden nedanför har blivit bortkommenterad för att den inte används -->
           <!-- <option value="discord">Discord</option>
           <option value="github">Github</option>
           <option value="skills">Skills</option>
@@ -31,7 +32,12 @@
         <br />
 
         <div>
-          <input type="submit" value="Välj parameter" />
+          <input
+            type="submit"
+            id="submit"
+            class="button"
+            value="Välj parameter"
+          />
         </div>
       </form>
       <!-- FORM -->
