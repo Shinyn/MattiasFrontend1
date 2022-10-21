@@ -51,8 +51,6 @@ To clone and run this program you'll need Git and Node.js installed.
 
 ### If you want to use the code:
 
-- 3.2 A step by step guide to using the code you have written.
-
 - To access the JSON object use the **"getJsonInfo()"** function which takes in a value from the dropdown menu
 - To access the form element use the **"form"** variable
 - To access the "Rensa" button use the **"clear"** variable
@@ -62,9 +60,21 @@ To clone and run this program you'll need Git and Node.js installed.
 - To clear the list of li tags use the **"clearList()"** function
 - To clear all arrays use the **"resetGroups()"** function
 - To sort **NAMES** alphabetically use the **"sortNameAlphabetically()"** which accepts an array as argument
-- To use the
+- To sort by number use the **"sortByNumber()"** function (**_this isn't working 100% as intended_**)
+- To print out groups to the page use the **showGroups()** function - it appends a "li" element to the "ul" element
+- The handleForm() function prevents the form from resetting the webpage and calls the **clearList()** and **getJsonInfo()** functions
+- The **fillUlWith()** is part of what makes the **showGroups()** and **sortNameAlphabetically()** functions tick
 
-<!-- - [ ] Skriv om vad man kan göra för att tweeka programmet så att man kan använda sig av alla parametrar i json filerna, samt vad man behöver lägga till för att visa dom i html'en. -->
+---
+
+#### If you want to use the functions that have been commented out (removed) you can uncomment them, play around with them a bit and maybe (undoubtedly) improve my code.
+
+#### Some of the functionality that exists but isn't in use is:
+
+- An error message for when a JSON parameter cant be sorted
+- Parameters for zodiac sign, positiveExperience, explanation, discord, github, skills, birthYear and hash code
+- Zodiac sign also have the following sub-categories that can be used: name, element, stone, symbol, dateMin, dateMax
+- The html file also has commented out code that needs to be uncommented for use, the ones that exist are: discord, github, skills, hash, birthYear
 
 ---
 
@@ -72,6 +82,8 @@ To clone and run this program you'll need Git and Node.js installed.
 
 1. Clicking the "Välj Parameter" button more than once will multiply the elements in the list by amount of clicks
 2. Clicking "Visa Grupp" twice will clear the list of elements
+
+- It's a little funny that the first problem can be solved with the second problem 😅
 
 ---
 

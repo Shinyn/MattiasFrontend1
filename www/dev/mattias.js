@@ -160,7 +160,8 @@ function resetGroups() {
   voidGroup = [];
 }
 
-// Rensar först listan och kallar sen på funktionen "printGroupMembers"
+// Rensar först listan med "clearList()" och kallar sen på antingen "sortNameAlphabetically()" eller
+// "fillUlWith()" funktionerna for att sortera och skriva ut grupper
 function showGroup() {
   clearList();
   let value = document.getElementById("groupAs").value;
